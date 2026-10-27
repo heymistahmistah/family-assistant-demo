@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#dfecea" />
+    <meta name="description" content="Private family assistant prototype" />
+    <title>Family Assistant</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div><small id="topDate">TODAY</small><h1 id="topGreeting">Hello, Emmeline</h1></div>
+        <button class="weather-button" data-view="calendar" aria-label="Open calendar and weather"><span>🌦</span><b>10–13°</b><small>🌧 17:00–18:00</small></button>
+      </header>
+      <aside class="demo-notice"><b>Fictional demo</b><span>Changes stay only in this browser. Do not add real private information yet.</span></aside>
+
+      <main>
+        <section class="view active" id="today">
+          <div class="section-heading"><div><small>TODAY</small><h2>First, then next</h2></div><div class="heading-actions"><button class="review-tray-button" id="reviewTrayButton" hidden>Review <span id="reviewCount">0</span></button><button class="quiet-button" data-view="wall">Wall view</button></div></div>
+          <article class="focus-card" id="todayFocus">
+            <span class="eyebrow" id="focusEstimate">FIRST • ABOUT 15 MIN</span>
+            <h2 id="focusTitle">Check the new school message</h2>
+            <p id="focusNote">Open Smartschool, decide whether it needs an event or task, then return here.</p>
+            <div class="actions"><button class="primary">Help me start</button><button id="focusDone">Done</button><button data-view="todos">Open To-dos</button></div>
+          </article>
+          <div class="two-column">
+            <section class="card">
+              <div class="card-heading"><h3>Family next</h3><span>08:10</span></div>
+              <div class="family-line"><span class="avatar bruno">B</span><span class="avatar eulalie">Eu</span><div><b>Leave for school</b><small>Bike</small></div></div>
+              <div class="family-line"><span class="avatar emmeline">E</span><span class="avatar leonore">Lé</span><div><b>Nursery drop-off</b><small>Walk + balance bike • 08:20</small></div></div>
+            </section>
+            <section class="card">
+              <div class="card-heading"><h3>Prepare</h3><span>Tomorrow</span></div>
+              <div id="tomorrowPreview"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view live-wall" id="wall">
+          <header class="live-wall-header">
+            <div><small>SHARED FAMILY VIEW</small><h2>Today</h2><span id="wallDay"></span></div>
+            <div class="wall-weather"><span>08:00 🌥 10°</span><span>17:30 🌧 12°</span></div>
+            <button id="wallExitButton" data-view="today">Exit wall view</button>
+          </header>
+          <div class="wall-people">
+            <span><i class="avatar emmeline">E</i>Emmeline</span>
+            <span><i class="avatar bruno">B</i>Bruno</span>
+            <span><i class="avatar eulalie">Eu</i>Eulalie</span>
+            <span><i class="avatar leonore">Lé</i>Léonore</span>
+          </div>
+          <div class="live-wall-grid">
+            <section class="wall-panel">
+              <div class="card-heading"><h3>Family next</h3><span id="wallWeekday"></span></div>
+              <div id="wallEventList"></div>
+            </section>
+            <section class="wall-panel">
+              <div class="card-heading"><h3>Who is doing what?</h3><span>Live To-dos</span></div>
+              <div id="wallTaskList"></div>
+            </section>
+            <section class="wall-panel wall-next">
+              <div class="card-heading"><h3>Next</h3><span>Children</span></div>
+              <article><span class="avatar eulalie">Eu</span><div><b>Get dressed</b><small>Then brush teeth</small></div><span class="clock-chip">46 min</span></article>
+              <article><span class="avatar leonore">Lé</span><div><b>Shoes and coat</b><small>Then helmet</small></div><span class="clock-chip pink">56 min</span></article>
+            </section>
+          </div>
+          <footer class="live-wall-footer">Fictional demo • Shared records only • Do not add real private information</footer>
+        </section>
+
+        <section class="view" id="todos">
+          <div class="section-heading"><div><small>TO-DOS</small><h2>What needs doing?</h2></div><button class="primary small" id="addTaskButton">＋ Add</button></div>
+          <div class="filter-row"><button class="active" data-filter="today">Today</button><button data-filter="tomorrow">Tomorrow</button><button data-filter="soon">Soon</button><button data-filter="later">Later</button><button data-filter="waiting">Waiting</button><button data-filter="completed">Completed</button></div>
+          <section class="list-card" id="todoList" aria-live="polite"></section>
+        </section>
+
+        <section class="view" id="calendar">
+          <div class="section-heading"><div><small>CALENDAR</small><h2>This week</h2></div><button class="quiet-button">Month</button></div>
+          <div class="day-strip" id="dayStrip"></div>
+          <section class="card agenda" id="calendarAgenda"></section>
+        </section>
+
+        <section class="view assistant-view" id="assistant">
+          <div class="assistant-orb">✦</div>
+          <small>ONE ASSISTANT</small>
+          <h2>What's on your mind?</h2>
+          <p>Ask anything or think out loud. You will review what I understood before anything is added.</p>
+          <div class="prompt-examples"><button>Plan my afternoon</button><button>What can we cook?</button><button>Prepare a message</button></div>
+          <button class="record-button" id="recordButton"><span>🎙</span><b>Tap to talk</b></button>
+          <div class="attachment-row"><button>▧ Photos</button><button>⌁ Files</button><button id="typeCaptureButton">⌨ Type</button></div>
+        </section>
+
+        <section class="view" id="spaces">
+          <div class="section-heading"><div><small>PEOPLE</small><h2>Our family</h2></div><button class="quiet-button">Manage</button></div>
+          <div class="profile-grid">
+            <button><span class="large-avatar emmeline">E</span><b>Emmeline</b><small>Private + shared</small></button>
+            <button><span class="large-avatar bruno">B</span><b>Bruno</b><small>Private + shared</small></button>
+            <button><span class="large-avatar eulalie">Eu</span><b>Eulalie</b><small>Child-safe</small></button>
+            <button><span class="large-avatar leonore">Lé</span><b>Léonore</b><small>Child-safe</small></button>
+          </div>
+          <div class="section-heading lower"><div><small>SHARED AREAS</small><h2>Household</h2></div></div>
+          <div class="space-grid"><button>🍲 <b>Food</b></button><button>🧺 <b>Home & Cleaning</b></button><button>🏠 <b>Smart home</b></button><button>📁 <b>Documents</b></button></div>
+        </section>
+
+        <section class="view" id="more">
+          <div class="section-heading"><div><small>MORE</small><h2>Settings and history</h2></div></div>
+          <section class="list-card menu-list">
+            <button>🔔 Notifications <span>›</span></button>
+            <button>🔎 Search and history <span>›</span></button>
+            <button>🔒 Privacy and permissions <span>›</span></button>
+            <button>🔗 Integrations <span>›</span></button>
+            <button>↥ Export and backup <span>›</span></button>
+            <button id="adultModeButton">🔐 Adult mode <span id="adultModeStatus">Not set up</span></button>
+          </section>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <button class="active" data-view="today"><span>⌂</span>Today</button>
+        <button data-view="todos"><span>✓</span>To-dos</button>
+        <button class="assistant-tab" data-view="assistant"><span>✦</span>Assistant</button>
+        <button data-view="spaces"><span>◉</span>Spaces</button>
+        <button data-view="more"><span>•••</span>More</button>
+      </nav>
+    </div>
+
+    <dialog id="adultDialog">
+      <form id="adultForm">
+        <button class="close" type="button" data-close-adult aria-label="Close">×</button>
+        <small>ADULT CHECK</small>
+        <h2 id="adultDialogTitle">Create a screen PIN</h2>
+        <p id="adultDialogCopy">This prevents accidental changes by children on this device. It is not yet account security.</p>
+        <label>Four-digit PIN<input name="pin" inputmode="numeric" autocomplete="off" pattern="[0-9]{4}" minlength="4" maxlength="4" required /></label>
+        <label id="confirmPinLabel">Repeat PIN<input name="confirmPin" inputmode="numeric" autocomplete="off" pattern="[0-9]{4}" minlength="4" maxlength="4" /></label>
+        <p class="form-error" id="adultPinError" hidden></p>
+        <div class="dialog-actions"><button type="button" data-close-adult>Cancel</button><button class="primary" id="adultSubmitButton" type="submit">Create PIN</button></div>
+      </form>
+    </dialog>
+    <dialog id="taskDialog">
+      <form id="taskForm">
+        <button class="close" type="button" data-close-task aria-label="Close">×</button>
+        <small>NEW TO-DO</small>
+        <h2 id="taskDialogTitle">Add one clear action</h2>
+        <label>What needs doing?<input name="title" required maxlength="140" autocomplete="off" /></label>
+        <label>When?
+          <select name="bucket">
+            <option value="today">Today</option>
+            <option value="tomorrow">Tomorrow</option>
+            <option value="soon">Soon</option>
+            <option value="later">Later</option>
+            <option value="waiting">Waiting</option>
+          </select>
+        </label>
+        <fieldset class="assignee-picker">
+          <legend>Who is responsible?</legend>
+          <label><input type="checkbox" name="assignee" value="emmeline" checked /> Emmeline</label>
+          <label><input type="checkbox" name="assignee" value="bruno" /> Bruno</label>
+          <label><input type="checkbox" name="assignee" value="eulalie" /> Eulalie</label>
+          <label><input type="checkbox" name="assignee" value="leonore" /> Léonore</label>
+        </fieldset>
+        <p class="form-error" id="assigneeError" hidden>Choose at least one responsible person.</p>
+        <label>Who is it for?
+          <select name="beneficiary">
+            <option value="">No specific child</option>
+            <option value="eulalie">Eulalie 🍏</option>
+            <option value="leonore">Léonore 🍊</option>
+          </select>
+        </label>
+        <label>Helpful note, optional<input name="note" maxlength="240" autocomplete="off" /></label>
+        <div class="dialog-actions"><button type="button" data-close-task>Cancel</button><button class="primary" id="taskSubmitButton" type="submit">Add to To-dos</button></div>
+      </form>
+    </dialog>
+    <dialog id="captureDialog">
+      <form id="captureForm">
+        <button class="close" type="button" data-close-capture aria-label="Close">×</button>
+        <small>WHAT'S ON YOUR MIND?</small>
+        <h2>Type it as it comes</h2>
+        <p>Rambling is allowed. This local demo creates one proposed To-do for you to review.</p>
+        <textarea name="capture" rows="7" required maxlength="2000" placeholder="I need to remember to..."></textarea>
+        <div class="dialog-actions"><button type="button" data-close-capture>Cancel</button><button class="primary" type="submit">Review what I understood</button></div>
+      </form>
+    </dialog>
+    <dialog id="reviewDialog">
+      <form id="reviewForm">
+        <button class="close" type="button" data-review-action="later" aria-label="Close">×</button>
+        <small>REVIEW</small>
+        <h2>Is this what you meant?</h2>
+        <blockquote id="reviewSource"></blockquote>
+        <label>Proposed To-do<input name="title" required maxlength="140" /></label>
+        <label>When?
+          <select name="bucket"><option value="today">Today</option><option value="tomorrow">Tomorrow</option><option value="soon">Soon</option><option value="later">Later</option><option value="waiting">Waiting</option></select>
+        </label>
+        <label>Who is responsible?
+          <select name="assignee"><option value="emmeline">Emmeline</option><option value="bruno">Bruno</option><option value="eulalie">Eulalie</option><option value="leonore">Léonore</option></select>
+        </label>
+        <label>Who is it for?
+          <select name="beneficiary"><option value="">No specific child</option><option value="eulalie">Eulalie 🍏</option><option value="leonore">Léonore 🍊</option></select>
+        </label>
+        <div class="review-actions"><button type="button" data-review-action="ignore">Ignore</button><button type="button" data-review-action="later">Review later</button><button class="primary" type="submit">Add</button></div>
+      </form>
+    </dialog>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
