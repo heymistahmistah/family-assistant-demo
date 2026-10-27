@@ -1,4 +1,4 @@
-const CACHE_NAME = 'family-assistant-shell-v13';
+const CACHE_NAME = 'family-assistant-shell-v14';
 const APP_SHELL = ['./', './index.html', './styles.css', './app.js', './data.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 const STATIC_URLS = new Set(APP_SHELL.map((path) => new URL(path, self.registration.scope).href));
 

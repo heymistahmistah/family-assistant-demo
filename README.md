@@ -1,6 +1,8 @@
 # Installable application shell
 
-> **Fictional public demo:** this repository contains only deployable app files.
+> **Incomplete fictional technical demo:** this repository contains only
+> deployable app files. The agreed Week, Month, Weather, profiles, syncing, and
+> integrations are not implemented here yet.
 > Private SmartHub planning and future family data are not included. Changes stay
 > in the current browser; do not enter real private information.
 
